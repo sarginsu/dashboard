@@ -1,0 +1,23 @@
+.top-menu {
+  position: absolute;
+  height: 144px;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+}
+
+.sub-menu {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 61.11%;
+  bottom: 0%;
+}
+
+.top-bar {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0%;
+  bottom: 38.89%;
+}
