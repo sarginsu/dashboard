@@ -2,38 +2,32 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Table, Tag } from 'antd';
 import './index.css';
 import moment from 'moment';
-// import dummy from '../../data.json'
+// import dummy from '../../data.json';
 
-const Highcharts = require('highcharts');
 const axios = require('axios');
+const Highcharts = require('highcharts');
 
 const Dashboard = () => {
   const [orders, setOrders] = useState();
-  const [userCategory, setUserCategory] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get('https://ae1cdb19-2532-46fa-9b8f-cce01702bb1e.mock.pstmn.io/takehometest/web/dashboard');
+        const { orders, user_category } = data.data;
+        // const { orders, user_category } = dummy;
+        setOrders(orders);
+        getChart(user_category)
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     getData();
   }, []);
-
-  useEffect(() => {
-    if (userCategory) getChart();
-  }, [userCategory]);
-
-  const getData = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get('https://ae1cdb19-2532-46fa-9b8f-cce01702bb1e.mock.pstmn.io/takehometest/web/dashboard');
-      const { orders, user_category } = data.data;
-      // const { orders, user_category } = dummy;
-      setOrders(orders);
-      setUserCategory(user_category);
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const columns = [
     {
@@ -92,7 +86,7 @@ const Dashboard = () => {
     },
   ];
 
-  const getChart = () => {
+  const getChart = (userCategory) => {
     const { conservative, moderate, risk_averse, risk_taker } = userCategory;
     const data = [{
       name: 'User Category',
@@ -101,16 +95,20 @@ const Dashboard = () => {
         name: 'Conservative',
         y: parseInt(conservative),
         sliced: true,
-        selected: true
+        selected: true,
+        color: '#725E9C'
       }, {
         name: 'moderate',
-        y: parseInt(moderate)
+        y: parseInt(moderate),
+        color: '#5C8F94'
       }, {
         name: 'risk_averse',
-        y: parseInt(risk_averse)
+        y: parseInt(risk_averse),
+        color: '#EBA45E'
       }, {
         name: 'risk_taker',
-        y: parseInt(risk_taker)
+        y: parseInt(risk_taker),
+        color: '#E4EAEB'
       }]
     }];
 
@@ -143,7 +141,6 @@ const Dashboard = () => {
       series: data
     });
   };
-
 
   return (
     <Row className="content">

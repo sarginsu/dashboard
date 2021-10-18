@@ -12,7 +12,7 @@ const HeaderCustom = () => {
         <Row>
           <Col xs={24} md={6} xl={6}>
             <Link to="/">
-              <img alt="Bareksa" src="/bareksa.png" style={{ width: 135, height: 24 }} />
+              <img alt="Bareksa" src="/bareksa.png" width="135" />
             </Link>
           </Col>
           <Col xs={24} md={6} xl={6}>
