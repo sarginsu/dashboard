@@ -136,15 +136,15 @@ const Dashboard = () => {
         selected: true,
         color: '#725E9C'
       }, {
-        name: 'moderate',
+        name: 'Moderate',
         y: parseInt(moderate),
         color: '#5C8F94'
       }, {
-        name: 'risk_averse',
+        name: 'Risk Averse',
         y: parseInt(risk_averse),
         color: '#EBA45E'
       }, {
-        name: 'risk_taker',
+        name: 'Risk Taker',
         y: parseInt(risk_taker),
         color: '#E4EAEB'
       }]
