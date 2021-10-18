@@ -14,8 +14,8 @@ function App() {
 
         <Content>
           <Switch>
-            <Route path='/' exact component={HeaderCustom}></Route>
-            <Route path='/dashboard' exact component={Dashboard}></Route>
+            <Route path='/' exact component={Dashboard}></Route>
+            {/* <Route path='/profile' exact component={Profile}></Route> */}
           </Switch>
         </Content>
 
