@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Table, Tag } from 'antd';
 import './index.css';
 import moment from 'moment';
-import PieChart from '../../components/charts/PieChart'
+import PieChart from '../../components/charts/PieChart';
+import LineChart from '../../components/charts/LineChart';
 
 import dummy from '../../data.json';
 // const axios = require('axios');
@@ -10,8 +11,9 @@ import dummy from '../../data.json';
 const Dashboard = () => {
   const [orders, setOrders] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [dataConversion, setdataConversion] = useState();
-  const [dataUsers, setdataUsers] = useState();
+  const [dataConversion, setDataConversion] = useState();
+  const [dataUsers, setDataUsers] = useState();
+  const [dataRevenue, setDataRevenue] = useState();
 
   useEffect(() => {
     const getData = async () => {
@@ -23,6 +25,7 @@ const Dashboard = () => {
         setOrders(orders);
         parseDataCategory(user_category);
         parseDataUsers(orders);
+        parseDataRevenue(orders);
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -120,7 +123,7 @@ const Dashboard = () => {
         color: '#EBA45E'
       }]
     }];
-    setdataUsers(data);
+    setDataUsers(data);
   };
 
   const parseDataCategory = (userCategory) => {
@@ -148,7 +151,18 @@ const Dashboard = () => {
         color: '#E4EAEB'
       }]
     }];
-    setdataConversion(data);
+    setDataConversion(data);
+  };
+
+  const parseDataRevenue = (orders) => {
+    let data = [];
+
+    orders.forEach(val => {
+      const date = new Date(val.start_date).getTime();
+      const arr = [date, parseInt(val.conversion_revenue)];
+      data = [...data, arr];
+    });
+    setDataRevenue(data);
   };
 
   return (
@@ -174,6 +188,7 @@ const Dashboard = () => {
           <span className="top-title">
             Revenue
           </span>
+          <LineChart container="users" data={dataRevenue} />
         </div>
       </Col>
 
