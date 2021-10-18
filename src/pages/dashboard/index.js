@@ -2,24 +2,27 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Table, Tag } from 'antd';
 import './index.css';
 import moment from 'moment';
-// import dummy from '../../data.json';
+import PieChart from '../../components/charts/PieChart'
 
-const axios = require('axios');
-const Highcharts = require('highcharts');
+import dummy from '../../data.json';
+// const axios = require('axios');
 
 const Dashboard = () => {
   const [orders, setOrders] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [dataConversion, setdataConversion] = useState();
+  const [dataUsers, setdataUsers] = useState();
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
       try {
-        const { data } = await axios.get('https://ae1cdb19-2532-46fa-9b8f-cce01702bb1e.mock.pstmn.io/takehometest/web/dashboard');
-        const { orders, user_category } = data.data;
-        // const { orders, user_category } = dummy;
+        // const { data } = await axios.get('https://ae1cdb19-2532-46fa-9b8f-cce01702bb1e.mock.pstmn.io/takehometest/web/dashboard');
+        // const { orders, user_category } = data.data;
+        const { orders, user_category } = dummy;
         setOrders(orders);
-        getChart(user_category)
+        parseDataCategory(user_category);
+        parseDataUsers(orders);
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -86,7 +89,41 @@ const Dashboard = () => {
     },
   ];
 
-  const getChart = (userCategory) => {
+  const parseDataUsers = (users) => {
+    let completed = 0;
+    let pending = 0;
+    let canceled = 0;
+
+    users.forEach(val => {
+      const status = val.status;
+      if (status === 'completed') completed++;
+      else if (status === 'pending') pending++;
+      else if (status === 'canceled') canceled++;
+    });
+
+    const data = [{
+      name: 'Users',
+      colorByPoint: true,
+      data: [{
+        name: 'Completed',
+        y: parseInt(completed),
+        sliced: true,
+        selected: true,
+        color: '#725E9C'
+      }, {
+        name: 'Pending',
+        y: parseInt(pending),
+        color: '#5C8F94'
+      }, {
+        name: 'Canceled',
+        y: parseInt(canceled),
+        color: '#EBA45E'
+      }]
+    }];
+    setdataUsers(data);
+  };
+
+  const parseDataCategory = (userCategory) => {
     const { conservative, moderate, risk_averse, risk_taker } = userCategory;
     const data = [{
       name: 'User Category',
@@ -111,35 +148,7 @@ const Dashboard = () => {
         color: '#E4EAEB'
       }]
     }];
-
-    Highcharts.chart('container', {
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-      },
-      title: false,
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-      accessibility: {
-        point: {
-          valueSuffix: '%'
-        }
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: false
-          },
-          showInLegend: true
-        }
-      },
-      series: data
-    });
+    setdataConversion(data);
   };
 
   return (
@@ -149,6 +158,7 @@ const Dashboard = () => {
           <span className="top-title">
             Conversion
           </span>
+          <PieChart container="conversion" data={dataConversion} />
         </div>
       </Col>
       <Col xs={24} md={12} xl={6}>
@@ -156,6 +166,7 @@ const Dashboard = () => {
           <span className="top-title">
             Users
           </span>
+          <PieChart container="users" data={dataUsers} />
         </div>
       </Col>
       <Col xs={24} md={24} xl={12}>
@@ -163,9 +174,6 @@ const Dashboard = () => {
           <span className="top-title">
             Revenue
           </span>
-          <figure class="highcharts-figure">
-            <div id="container"></div>
-          </figure>
         </div>
       </Col>
 
