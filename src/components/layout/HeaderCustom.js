@@ -15,17 +15,6 @@ const HeaderCustom = () => {
               <img alt="Bareksa" src="/bareksa.png" width="135" />
             </Link>
           </Col>
-          <Col xs={24} md={6} xl={6}>
-            {/* <Link to="/dashboard">
-              Reinhart H.
-            </Link> */}
-          </Col>
-          <Col xs={24} md={6} xl={6}>
-
-          </Col>
-          <Col xs={24} md={6} xl={6}>
-
-          </Col>
         </Row>
       </div>
       <div className="sub-menu">

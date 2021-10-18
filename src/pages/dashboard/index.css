@@ -44,3 +44,12 @@
   border-radius: 4px;
   text-align: center;
 }
+
+.calendar-button {
+  text-align: center;
+}
+
+.btn-filter {
+  background: #82C341;
+  border-radius: 4px;
+}

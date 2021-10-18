@@ -15,7 +15,6 @@ function App() {
         <Content>
           <Switch>
             <Route path='/' exact component={Dashboard}></Route>
-            {/* <Route path='/profile' exact component={Profile}></Route> */}
           </Switch>
         </Content>
 

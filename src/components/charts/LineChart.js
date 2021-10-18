@@ -37,8 +37,8 @@ const LineChart = (props) => {
                 y2: 1
               },
               stops: [
-                [0, Highcharts.getOptions().colors[0]],
-                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                [0, '#789764'],
+                [1, Highcharts.color('#789764').setOpacity(0).get('rgba')]
               ]
             },
             marker: {
@@ -57,6 +57,7 @@ const LineChart = (props) => {
         series: [{
           type: 'area',
           name: 'Revenue',
+          color: '#789764',
           data: data
         }]
       });

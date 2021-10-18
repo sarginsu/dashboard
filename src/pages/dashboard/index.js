@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Table, Tag } from 'antd';
+import { Row, Col, Table, Tag, Calendar, Button } from 'antd';
 import './index.css';
 import moment from 'moment';
 import PieChart from '../../components/charts/PieChart';
 import LineChart from '../../components/charts/LineChart';
 
-import dummy from '../../data.json';
-// const axios = require('axios');
+const axios = require('axios');
 
 const Dashboard = () => {
   const [orders, setOrders] = useState();
@@ -19,9 +18,8 @@ const Dashboard = () => {
     const getData = async () => {
       setIsLoading(true);
       try {
-        // const { data } = await axios.get('https://ae1cdb19-2532-46fa-9b8f-cce01702bb1e.mock.pstmn.io/takehometest/web/dashboard');
-        // const { orders, user_category } = data.data;
-        const { orders, user_category } = dummy;
+        const { data } = await axios.get('https://ae1cdb19-2532-46fa-9b8f-cce01702bb1e.mock.pstmn.io/takehometest/web/dashboard');
+        const { orders, user_category } = data.data;
         setOrders(orders);
         parseDataCategory(user_category);
         parseDataUsers(orders);
@@ -185,18 +183,27 @@ const Dashboard = () => {
       </Col>
       <Col xs={24} md={24} xl={12}>
         <div className="widget">
-          <span className="top-title">
+          <div className="top-title">
             Revenue
-          </span>
+          </div>
           <LineChart container="users" data={dataRevenue} />
         </div>
       </Col>
 
       <Col xs={24} md={24} xl={7}>
         <div className="widget">
-          <span className="top-title">
-            Calenders
-          </span>
+          <Calendar />
+          <div className="calendar-button">
+            <Button
+              style={{ marginRight: 16, borderRadius: 4, borderColor: '#E5E5E5' }}>
+              Cancel
+            </Button>
+            <Button
+              style={{ background: '#82C341', borderRadius: 4, borderColor: '#82C341' }}
+              type="primary">
+              Filter
+            </Button>
+          </div>
         </div>
       </Col>
       <Col xs={24} md={24} xl={17}>
